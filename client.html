@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pusher IMS Notifikasi</title>
+  <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+  <script>
+var pusher = new Pusher('b7f6904b034d9b3bf50b','304d4c96a046a8b1d49b','559447',{"cluster": 'ap1'});
+var channel = pusher.subscribe('iodev_channel');
+channel.bind('pusher:subscription_succeeded', function() {
+  var triggered = channel.trigger('iodev_event', { 'your': 'data' });
+});
+  </script>
+</head>
+<body></body>
+</html>

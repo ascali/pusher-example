@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<head>
+  <title>Pusher Notification IMS</title>
+  <link rel="stylesheet" type="text/css" href="node_modules/noty/lib/noty.css">
+  <link rel="stylesheet" type="text/css" href="node_modules/noty/src/themes/bootstrap-v4.css">
+  <link rel="stylesheet" type="text/css" href="node_modules/noty/src/themes/mint.css">
+  <link rel="stylesheet" type="text/css" href="node_modules/noty/src/themes/nest.css">
+  <script type="text/javascript" src="node_modules/noty/lib/noty.min.js"></script>
+  <script src="pusher.min.js"></script>
+  <!-- <script src="https://js.pusher.com/4.1/pusher.min.js"></script> -->
+  <script>
+
+    // Enable pusher logging - don't include this in production
+    // Pusher.logToConsole = true;
+
+    /*Pusher.log = function(msg) {
+      console.log(msg);
+    };*/
+
+    var pusher = new Pusher('b7f6904b034d9b3bf50b', {
+      cluster: 'ap1',
+      encrypted: true
+    });
+
+    var channel = pusher.subscribe('iodev_channel');
+
+    channel.bind('iodev_event', function(data) {
+      var datas = JSON.stringify(data);
+      var pesan = ' &nbsp; From: <b>'+data.data.name+'</b>,<br> &nbsp; Message: <b>'+data.data.message+'</b>'
+      new Noty({
+          sounds   : {
+            sources: 'notification_sound.mp3',
+            volume: 4
+          },
+          type     : 'info',
+          layout   : 'topRight',
+          theme    : 'nest',
+          text: pesan
+      }).show();
+      var audio = new Audio('notification_sound.mp3');
+      audio.play();
+      // alert(JSON.stringify(data));
+      console.log(data);
+    });
+
+  </script>
+</head>
+<body>
+  <h1>Pusher Pusher Notification IMS</h1>
+  <p>
+    Try publishing an event to channel <code>my-channel</code>
+    with event name <code>my-event</code>.
+  </p>
+</body>
